@@ -12,7 +12,7 @@ class DarkNet(nn.Module):
   Architecture config is found here: https://github.com/pjreddie/darknet/blob/master/cfg/yolov3.cfg
 
   """
-  def __init__(self, config_path='config/yolov3.cfg', use_cuda=True):
+  def __init__(self, config_path='config/yolov3.cfg', use_cuda=False):
     super().__init__()
     self.layers = parse_config(config_path)
     self.net, self.network_config = self._create_network()

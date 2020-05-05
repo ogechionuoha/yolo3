@@ -23,6 +23,6 @@ wget https://github.com/ogechionuoha/files/blob/master/classnames.coco -P config
 Use:
 
 ```
-python detectwithyolo.py --configfile config/yolov3.cfg --weightfile config/yolov3.weights --images images
+python detectwithyolo.py --configpath config/yolov3.cfg --weightpath config/yolov3.weights --images images
 ```
 

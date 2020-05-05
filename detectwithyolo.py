@@ -19,7 +19,7 @@ def arg_parse():
     parser.add_argument("--iou", dest="iou", help="IoU Threshhold[0-1]", default = 0.4)
     parser.add_argument("--configpath", dest='configpath', help="Config file", default="config/yolov3.cfg", type = str)
     parser.add_argument("--weightpath", dest ='weightpath', help="weights path", default="config/yolov3.weights", type = str)
-    parser.add_argument("--resolution", dest='resolution', help="Input image resolution used to control speed/accuracy", default="416", type=int)
+    parser.add_argument("--resolution", dest='resolution', help="Input image resolution used to control speed/accuracy", default=416, type=int)
     
     return parser.parse_args()
 
@@ -32,6 +32,7 @@ iou_treshold= float(args.iou)
 weight_path = args.weightpath
 config_path = args.configpath
 input_dim = args.resolution
+shownet = int(args.shownet)
 
 classnames = load_classnames('config/classnames.coco')
 num_classes = 80
@@ -40,6 +41,9 @@ model = DarkNet(config_path=config_path)
 model.load_weights(weight_path=weight_path)
 model.to(model.device)
 model.eval()
+
+if shownet:
+    print(model)
 
 #load images 
 imgs, imglist = get_imglist(images)
