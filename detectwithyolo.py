@@ -15,9 +15,9 @@ def arg_parse():
     parser.add_argument("--images", dest='images', help = "Image/Directory to perform detection upon", default = "images", type=str)
     parser.add_argument("--outputs", dest='outputdir', help = "Image/Directory to store detections", default = "outputs", type=str)
     parser.add_argument("--batch", dest="batch", help = "Batch size", default = 1, type=int)
-    parser.add_argument("--confidence", dest="confidence", help="Objectness threshold to filter predictions", default = 0.5)
-    parser.add_argument("--iou", dest="iou", help="IoU Threshhold", default = 0.4)
-    parser.add_argument("--configfile", dest='cfgfile', help="Config file", default="config/yolov3.cfg", type = str)
+    parser.add_argument("--confidence", dest="confidence", help="Objectness threshold to filter predictions[0-1]", default = 0.5)
+    parser.add_argument("--iou", dest="iou", help="IoU Threshhold[0-1]", default = 0.4)
+    parser.add_argument("--configpath", dest='configpath', help="Config file", default="config/yolov3.cfg", type = str)
     parser.add_argument("--weightpath", dest ='weightpath', help="weights path", default="config/yolov3.weights", type = str)
     parser.add_argument("--resolution", dest='resolution', help="Input image resolution used to control speed/accuracy", default="416", type=int)
     
@@ -26,16 +26,17 @@ def arg_parse():
 args = arg_parse()
 images = args.images
 outputdir = args.outputdir
-batch_size = 1 #int(args.batch)
+batch_size = 1 #int(args.batch) gives an error now.. 
 confidence = float(args.confidence)
-iou_thesh = float(args.iou)
+iou_treshold= float(args.iou)
 weight_path = args.weightpath
+config_path = args.configpath
 input_dim = args.resolution
 
 classnames = load_classnames('config/classnames.coco')
 num_classes = 80
 
-model = DarkNet()
+model = DarkNet(config_path=config_path)
 model.load_weights(weight_path=weight_path)
 model.to(model.device)
 model.eval()
@@ -76,7 +77,7 @@ for i, batch in enumerate(img_batches):
       prediction = model(Variable(batch))
     
     #get bounding boxes
-    prediction = get_true_detections(prediction, num_classes=80, conf_treshold=0.5, iou_treshold=0.4)
+    prediction = get_true_detections(prediction, num_classes=80, conf_treshold=confidence, iou_treshold=iou_treshold)
 
     if prediction is None:
         for im_num, image in enumerate(imgs[i*batch_size : min((i + 1)*batch_size, data_size)]):
