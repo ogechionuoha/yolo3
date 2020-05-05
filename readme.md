@@ -6,7 +6,7 @@ Test using pretained weights for object detection
 ##Todos
 - Fix batch bug
 - Update to use loaders
--
+- fix cuda bug
 
 ## Setup/config
 
