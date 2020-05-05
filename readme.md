@@ -14,6 +14,7 @@ Test using pretained weights for object detection
 mkdir config
 wget https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg -P config/
 wget https://pjreddie.com/media/files/yolov3.weights -P config/
+wget https://github.com/ogechionuoha/files/blob/master/classnames.coco -P config/
 
 ```
 
